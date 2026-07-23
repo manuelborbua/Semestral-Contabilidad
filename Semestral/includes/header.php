@@ -1,5 +1,10 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
+    $directorio_sesiones = __DIR__ . '/../storage/sessions';
+    if (!is_dir($directorio_sesiones)) {
+        mkdir($directorio_sesiones, 0775, true);
+    }
+    session_save_path($directorio_sesiones);
     session_start();
 }
 
@@ -16,6 +21,7 @@ if ($base_assets === '/') { $base_assets = ''; }
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Planilla Prospera<?php echo isset($titulo_pagina) ? ' — ' . htmlspecialchars($titulo_pagina) : ''; ?></title>
 <link rel="stylesheet" href="<?php echo $base_assets; ?>/assets/css/estilos.css">
+<link rel="stylesheet" href="<?php echo $base_assets; ?>/reportes/imprimir.css" media="print">
 </head>
 <body>
 

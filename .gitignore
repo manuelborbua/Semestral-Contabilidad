@@ -1,0 +1,4 @@
+.tools/
+Semestral/vendor/
+Semestral/storage/sessions/*
+!Semestral/storage/sessions/.gitkeep

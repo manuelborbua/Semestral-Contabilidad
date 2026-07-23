@@ -1,46 +1,43 @@
 <?php
 
-$pagina_actual = basename($_SERVER['PHP_SELF']);
 $raiz_proyecto = str_replace('\\', '/', dirname(__DIR__)); // carpeta que contiene includes/
 $document_root = str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/\\'));
 $base = str_replace($document_root, '', $raiz_proyecto);
 if ($base === '/' ) { $base = ''; } // proyecto en la raíz del dominio
 
 $enlaces = [
-    'Inicio'                 => ['index.php',                 $base . '/index.php'],
-    'Colaboradores'          => ['index.php',                 $base . '/colaboradores/index.php'],
-    'Registrar colaborador'  => ['crear.php',                 $base . '/colaboradores/crear.php'],
-    'Calcular planilla'      => ['calcular.php',               $base . '/planilla/calcular.php'],
-    'Historial de planillas' => ['historial.php',              $base . '/planilla/historial.php'],
-    'Reporte individual'     => ['individual.php',             $base . '/reportes/individual.php'],
-    'Reporte grupal'         => ['grupal.php',                 $base . '/reportes/grupal.php'],
-    'Reporte CSS'            => ['css.php',                    $base . '/reportes/css.php'],
+    'Inicio'                 => ['index.php',                  $base . '/index.php'],
+    'Colaboradores'          => ['colaboradores/index.php',    $base . '/colaboradores/index.php'],
+    'Registrar colaborador'  => ['colaboradores/crear.php',    $base . '/colaboradores/crear.php'],
+    'Calcular planilla'      => ['planilla/calcular.php',      $base . '/planilla/calcular.php'],
+    'Historial de planillas' => ['planilla/historial.php',     $base . '/planilla/historial.php'],
+    'Reporte individual'     => ['reportes/individual.php',    $base . '/reportes/individual.php'],
+    'Reporte grupal'         => ['reportes/grupal.php',        $base . '/reportes/grupal.php'],
+    'Reporte CSS'            => ['reportes/css.php',           $base . '/reportes/css.php'],
 ];
+$ruta_solicitada = parse_url($_SERVER['REQUEST_URI'] ?? '/index.php', PHP_URL_PATH);
+$ruta_actual = ltrim(substr($ruta_solicitada, strlen($base)), '/');
 
-// Progreso visual de la quincena actual (día 1-15 o 16-fin de mes)
-$dia = (int) date('j');
-$dias_en_mes = (int) date('t');
-if ($dia <= 15) {
-    $inicio_q = 1;
-    $fin_q = 15;
-} else {
-    $inicio_q = 16;
-    $fin_q = $dias_en_mes;
-}
-$progreso = (($dia - $inicio_q) / max(1, ($fin_q - $inicio_q))) * 100;
-$progreso = max(0, min(100, $progreso));
 ?>
 <header class="barra-superior">
-    <div class="barra-superior__marca">
-        <strong>Semestral de Contabilidad</strong>
+    <div class="barra-superior__interior">
+        <a class="barra-superior__marca" href="<?php echo $base; ?>/index.php" aria-label="Ir al inicio">
+            <span class="marca-logo">
+                <img src="<?php echo $base; ?>/assets/img/logo.png" alt="">
+            </span>
+            <span class="marca-texto">
+                <strong>Planilla Prospera</strong>
+                <small>Semestral de Contabilidad · Grupo 5</small>
+            </span>
+        </a>
+        <span class="estado-sistema"><i></i> Sistema local</span>
     </div>
-    <img src="<?php echo $base; ?>/assets/img/logo.png" alt="Logo Universidad Tecnológica de Panamá" class="logo-universidad">
-    <nav>
+    <nav class="navegacion-principal" aria-label="Navegación principal">
         <ul class="nav-menu">
             <?php foreach ($enlaces as $texto => $ruta):
                 $archivo_comparar = $ruta[0];
                 $href = $ruta[1];
-                $clase = ($pagina_actual === $archivo_comparar) ? 'activo' : '';
+                $clase = ($ruta_actual === $archivo_comparar) ? 'activo' : '';
             ?>
             <li><a href="<?php echo $href; ?>" class="<?php echo $clase; ?>"><?php echo htmlspecialchars($texto); ?></a></li>
             <?php endforeach; ?>

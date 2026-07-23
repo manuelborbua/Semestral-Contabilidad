@@ -10,7 +10,7 @@ if (!isset($base_assets)) {
 ?>
 
 <footer class="footer-app">
-    <p>&copy; <?php echo date('Y'); ?> Daniela Anaya - Alberto Chen - Manuel Borbua - Arturo Levy - Brian Cona / Grupo 1GS231</p>
+    <p>&copy; <?php echo date('Y'); ?> Daniela Anaya - Alberto Chen - Manuel Borbua - Arturo Rodríguez - Brian Cona / Grupo 1GS231</p>
 </footer>
 
 <script src="<?php echo $base_assets; ?>/assets/js/app.js"></script>

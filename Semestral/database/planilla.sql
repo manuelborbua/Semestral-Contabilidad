@@ -1,6 +1,3 @@
--- Base de datos oficial del proyecto Planilla Prospera — Grupo 5.
--- Este contenido coincide con Semestral/database/planilla.sql.
-
 CREATE DATABASE IF NOT EXISTS planilla_prospera
     CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE planilla_prospera;

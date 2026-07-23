@@ -1,0 +1,8 @@
+@page { size: landscape; margin: 12mm; }
+
+@media print {
+    .reporte { border: 0 !important; box-shadow: none !important; padding: 0 !important; }
+    .tabla-responsive { overflow: visible !important; }
+    table { font-size: 9pt; }
+    .cabecera-reporte { margin-bottom: 8mm; }
+}
