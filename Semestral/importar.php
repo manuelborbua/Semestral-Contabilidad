@@ -1,31 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/config/conexion.php';
 
 if (!$conexion) {
-    die("No fue posible conectar con la base de datos.");
+    exit('No fue posible conectar con la base de datos.');
 }
 
-$sql = file_get_contents(__DIR__ . '/Script_DataBase');
+$rutaSql = __DIR__ . '/database/planilla.sql';
+$sql = file_get_contents($rutaSql);
 
 if ($sql === false) {
-    die("No se pudo leer Script_DataBase.");
+    exit('No se pudo leer database/planilla.sql.');
 }
 
-if ($conexion->multi_query($sql)) {
+try {
+    if (!$conexion->multi_query($sql)) {
+        throw new RuntimeException($conexion->error);
+    }
 
     do {
         if ($resultado = $conexion->store_result()) {
             $resultado->free();
         }
-    } while ($conexion->more_results() && $conexion->next_result());
 
-    echo "<h2>Base de datos importada correctamente.</h2>";
+        if (!$conexion->more_results()) {
+            break;
+        }
+    } while ($conexion->next_result());
 
-} else {
-
-    echo "<h2>Error:</h2>";
-    echo $conexion->error;
-
+    echo 'Base de datos importada correctamente.';
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo 'Error al importar: ' .
+        htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
 }
 ?>
