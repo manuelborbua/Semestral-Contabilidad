@@ -8,6 +8,9 @@ RUN apt-get update \
         git \
         unzip \
         libzip-dev \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
     && docker-php-ext-install \
         mysqli \
         pdo \
