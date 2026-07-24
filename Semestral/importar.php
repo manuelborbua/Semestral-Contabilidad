@@ -28,3 +28,4 @@ if ($conexion->multi_query($sql)) {
     echo $conexion->error;
 
 }
+?>
